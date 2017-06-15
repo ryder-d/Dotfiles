@@ -1,0 +1,196 @@
+[colors]
+background = #2C3E50
+background-alt = #34495E
+foreground = #BDC3C7
+foreground-alt = #555
+primary = #2ECC71
+secondary = #3498DB 
+alert = #E74C3C
+off-white = #ECF0F1
+
+[vars]
+padding = 2;
+
+[bar/main]
+monitor = DP-1
+
+height = 35
+fixed-center = true
+bottom = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+
+padding-left = 2
+padding-right = 4
+
+module-margin-left = 2
+module-margin-right = 2
+
+font-0 = FontAwesome:pixelsize=11;3
+font-1 = RobotoMono-Regular:pixelsize=12;3
+
+modules-left = i3
+modules-center = timedate weather
+modules-right = updates cpu memory wlan temperature date
+
+format-prefix = " "
+format-prefix-foreground = ${colors.primary}
+format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+; -------------------- ;
+; --- LEFT MODULES --- ;
+; -------------------- ;
+
+[module/i3]
+type = internal/i3
+format = ␖  <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = ${vars.padding}
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-foreground = ${colors.primary}
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.primary}
+label-focused-padding = ${vars.padding}
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = ${vars.padding}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-foreground = ${colors.secondary}
+label-visible-background = ${colors.background}
+label-visible-underline = ${colors.secondary}
+label-visible-padding = ${vars.padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = ${vars.padding}
+
+; ---------------------- ;
+; --- CENTER MODULES --- ;
+; ---------------------- ;
+
+[module/timedate]
+type = internal/date
+interval = 5
+
+time = "%I:%M %P"
+
+format-prefix =  
+format-prefix-foreground = ${colors.primary}
+
+label = %date% %time%
+label-padding = 1
+
+[module/weather]
+type = custom/script
+interval = 600
+format = <label>
+format-prefix = "  "
+format-prefix-foreground = ${colors.off-white}
+exec = ~/.config/polybar/weather.py
+
+; --------------------- ;
+; --- RIGHT MODULES --- ;
+; --------------------- ;
+
+[module/updates]
+type = custom/script
+interval = 600
+format = <label>
+format-prefix = "  "
+format-prefix-foreground = ${colors.primary}
+exec = ~/.config/polybar/updates.sh
+; exec if internet connection
+exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = "  "
+format-prefix-foreground = ${colors.primary}
+label = %percentage%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = "  "
+format-prefix-foreground = ${colors.primary}
+label = %percentage_used%%
+
+[module/temperature]
+type = custom/script
+interval = 5
+exec-if = sensors
+exec = sensors | grep Core | awk '{print substr($3, 2, length($3)-5)}' 
+
+
+format = "<label>"
+format-prefix = "  "
+format-prefix-foreground = ${colors.primary}
+format-suffix = "°C"
+
+[module/wlan]
+type = internal/network
+interface = net1
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+label-connected = %essid%
+
+format-disconnected =
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = "%a, %b  %d, %Y "
+
+format-prefix = "  " 
+format-prefix-foreground = ${colors.primary}
+
+; ------------------------------ ;
+; --- OTHER POLYBAR SETTINGS --- ;
+; ------------------------------ ;
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
