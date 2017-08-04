@@ -1,0 +1,219 @@
+# --------------- #
+# --- General --- #
+# --------------- #
+set $mod Mod4
+floating_modifier $mod
+font pango:Roboto 11
+
+gaps inner 16
+gaps outer 5
+
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec i3-msg exit
+
+# ----------------- #
+# --- Variables --- #
+# ----------------- #
+set $terminal termite
+set $monitor_main DP-1
+#set $monitor_left DVI-D-0
+set $monitor_left HDMI-0
+
+# --------------- #
+# --- Colours --- #
+# --------------- #
+set $urgent-color "#F96A38"
+set $text-color "#c5c8c6"
+set $active-color "#3971ED"
+set $inactive-color "#282a2e"
+
+#			 border		  background	   text		indicator (split)
+client.focused		 $active-color	  $active-color    $text-color	$active-color
+client.unfocused	 $inactive-color  $inactive-color  $text-color	$inactive-color
+client.focused_inactive  $inactive-color  $inactive-color  $text-color	$inactive-color
+client.urgent		 $urgent-color	  $urgent-color    $text-color	$urgent-color
+
+# ------------------ #
+# --- Workspaces --- #
+# ------------------ #
+set $ws1 "1: "
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4:"
+set $ws5 "5:"
+set $ws6 "6:"
+set $ws7 "7:"
+set $ws8 "8:"
+set $ws9 "9:"
+set $ws10 "10:"
+
+# Switch workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+bindsym $mod+Tab workspace back_and_forth
+
+workspace $ws1 output $monitor_left
+workspace $ws2 output $monitor_left
+workspace $ws3 output $monitor_left
+workspace $ws4 output $monitor_main
+workspace $ws5 output $monitor_main
+workspace $ws6 output $monitor_main
+workspace $ws7 output $monitor_main
+workspace $ws8 output $monitor_main
+workspace $ws9 output $monitor_main
+workspace $ws10 output $monitor_main
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# ------------------------ #
+# --- Focus Management --- #
+# ------------------------ #
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+semicolon split h
+bindsym $mod+v split v
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# --------------- #
+# --- Startup --- #
+# --------------- #
+#exec_always --no-startup-id xrandr --output $monitor_main --mode 2560x1440 --pos 1680x0 --rotate normal --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal
+exec_always --no-startup-id ~/bin/xrandr_output.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id feh --bg-fill  ~/Files/snowy_alps.jpg
+exec_always --no-startup-id nm-applet
+exec --no-startup-id compton -f
+
+exec --no-startup-id $terminal --name scratchpad
+
+# ----------------- #
+# --- Key Binds --- #
+# ----------------- #
+bindsym $mod+Return exec $terminal
+bindsym $mod+d exec rofi -monitor $monitor_main -show drun
+bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image/png
+
+# ------------- #
+# --- Modes --- #
+# ------------- #
+mode "Resize" {
+	bindsym j resize shrink width 10 px or 10 ppt
+	bindsym k resize grow height 10 px or 10 ppt
+	bindsym l resize shrink height 10 px or 10 ppt
+	bindsym semicolon resize grow width 10 px or 10 ppt
+
+	# same bindings, but for the arrow keys
+	bindsym Left resize shrink width 10 px or 10 ppt
+	bindsym Down resize grow height 10 px or 10 ppt
+	bindsym Up resize shrink height 10 px or 10 ppt
+	bindsym Right resize grow width 10 px or 10 ppt
+
+	# back to normal: Enter or Escape
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "Resize"
+
+mode "Power" {
+	bindsym $mod+p exec systemctl poweroff
+	bindsym $mod+s exec systemctl suspend, mode "default"
+	bindsym $mod+r exec systemctl reboot
+bindsym $mod+l exec i3lock, mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+p mode "Power"
+
+mode "Browser" {
+	bindsym $mod+f exec firefox, mode "default"
+	bindsym $mod+v exec vivaldi-stable, mode "default"
+	bindsym $mod+c exec chromium, mode "default"
+	bindsym $mod+Shift+c exec chromium --incognito, mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+b mode "Browser"
+
+
+# -------------------- #
+# --- Window Rules --- #
+# -------------------- #
+for_window [class="^.*"] border pixel 4
+
+# Scratchpad windows
+for_window [instance="scratchpad"] floating enable;
+for_window [instance="scratchpad"] move scratchpad;
+bindsym $mod+t [instance="scratchpad"] scratchpad show
+
+# Window assignments
+assign [class="discord"] $ws7
+assign [class="Caprine"] $ws7
+assign [class="mpv"] $ws8
+
+# Float all the Steam panels thanks to https://github.com/hubbcaps
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable

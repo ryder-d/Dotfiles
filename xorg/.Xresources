@@ -1,45 +1,30 @@
-!--- URXVT ---!
-URxvt.font: xft:Inconsolata\ for\ Powerline:size=13:antialias=true:hinting=true
-URXvt.boldFont: xft:Inconsolata\ Bold\ for\ Powerline:size=13:antialias=true:hinting=true
+! --------------- !
+! --- COLOURS --- !
+! --------------- !
 
-URxvt.depth: 32
-!URxvt.background: 
+! Base16 Google Dark
+! Scheme: Seth Wright (http://sethawright.com)
 
-!fonts spacing
-!URxvt.letterSpace: -6
-
-URxvt.scrollBar: false
-
-! Add inner padding
-URxvt.internalBorder: 10
-
-URxvt*termName:rxvt-unicode-256color
-
-!--- COLOURS ---!
-
-! Base16 Flat
-! Scheme: Chris Kempson (http://chriskempson.com)
-
-#define base00 #2C3E50
-#define base01 #34495E
-#define base02 #7F8C8D
-#define base03 #95A5A6
-#define base04 #BDC3C7
-#define base05 #e0e0e0
-#define base06 #f5f5f5
-#define base07 #ECF0F1
-#define base08 #E74C3C
-#define base09 #E67E22
-#define base0A #F1C40F
-#define base0B #2ECC71
-#define base0C #1ABC9C
-#define base0D #3498DB
-#define base0E #9B59B6
-#define base0F #be643c
+#define base00 #1d1f21
+#define base01 #282a2e
+#define base02 #373b41
+#define base03 #969896
+#define base04 #b4b7b4
+#define base05 #c5c8c6
+#define base06 #e0e0e0
+#define base07 #ffffff
+#define base08 #CC342B
+#define base09 #F96A38
+#define base0A #FBA922
+#define base0B #198844
+#define base0C #3971ED
+#define base0D #3971ED
+#define base0E #A36AC7
+#define base0F #3971ED
 
 *.foreground:   base05
 *.background:   base00
-*.cursorColor:  base0D
+*.cursorColor:  base05
 
 *.color0:       base00
 *.color1:       base08
@@ -67,3 +52,27 @@ URxvt*termName:rxvt-unicode-256color
 *.color19:      base02
 *.color20:      base04
 *.color21:      base06
+
+! ------------ !
+! --- Rofi --- !
+! ------------ !
+
+rofi.color-enabled: true
+
+!                  Background   Border      Separator 
+rofi.color-window: base00,      base0C,     base0C                                    
+
+!                  Background   Foreground  Background Alternate    Highlight Background    Highlight Foreground
+rofi.color-normal: base00,      base05,     base00,                 base02,                 base0C
+rofi.color-active: base00,      base05,     base00,                 base02,                 base0C
+rofi.color-urgent: base00,      base09,     base00,                 base02,                 base0C
+
+rofi.font: Roboto 32
+rofi.columns: 1
+rofi.hide-scrollbar: true
+rofi.disable-history: false
+rofi.bw: 5
+rofi.fullscreen: false
+rofi.lines: 5
+rofi.padding: 30
+rofi.separator-style: dash

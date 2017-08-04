@@ -1,0 +1,239 @@
+[colors]
+
+black = #1d1f21
+lighterblack = #282a2e
+darkgray = #373b41
+gray = #969896
+white = #ffffff
+lightgray = #c5c8c6
+
+accent = #3971ED
+accent2 = #A36AC7
+accent3 = #198844
+urgent = #F96A38
+
+background = #CC1d1f21
+foreground = ${self.lightgray}
+
+[bar/main]
+monitor = ${env:MONITOR:DP-1}
+width = 100%
+height = 32
+radius = 0 
+fixed-center = true
+bottom = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-left-size = 100
+border-right-size = ${self.border-left-size}
+border-bottom-size = 0
+border-color = #00000000
+
+line-size = 2
+
+padding-left = 0
+padding-right = 4
+
+module-margin-left = 5
+module-margin-right = 5
+
+font-0 = FontAwesome:pixelsize=11;3
+font-1 = Roboto:pixelsize=12;3
+font-2 = Siji:pixelsize=10;3
+font-3 = Siji:pixelsize=10;3
+
+modules-left = i3 weather mpd 
+modules-center = time_date 
+modules-right = pkg_updates cpu memory temperature 
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 0
+label-indicator-margin = 0
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+tray-position = right
+tray-background = ${colors.darkgray}
+; Breaks icons
+;tray-maxsize = 4
+tray-detached = false
+tray-padding = 10
+
+; --------------- ;
+; --- MODULES --- ;
+; --------------- ;
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+strip-wsnumbers = true
+
+label-background = ${colors.darkgray}
+
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-foreground = ${colors.white}
+label-focused-background = ${colors.accent}
+label-focused-padding = 4
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-background = ${self.label-background}
+label-unfocused-underline = 
+label-unfocused-padding = 4
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-foreground = ${colors.accent}
+label-visible-background = ${self.label-background}
+label-visible-padding = 4
+
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-foreground = ${colors.white}
+label-urgent-background = ${colors.urgent}
+label-urgent-padding = 4
+
+[module/weather]
+type = custom/script
+interval = 1200
+format = <label>
+exec = ~/.config/polybar/weather.py
+
+format-prefix = "  "
+format-prefix-foreground = ${colors.accent}
+
+[module/mpd]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+password = 
+
+interval = 2
+
+padding = 5
+
+[module/pkg_updates]
+type = custom/script
+interval = 600
+format = <label>
+format-prefix = "  "
+format-prefix-foreground = ${colors.accent}
+exec = ~/.config/polybar/updates.sh
+; exec if internet connection
+exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
+
+label = "%output:0:30%"
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+
+format = <label> <ramp-coreload>
+format-prefix = ""
+format-prefix-foreground = ${colors.accent}
+label =  "  %percentage%% "
+
+ramp-coreload-0 = ▁
+ramp-coreload-0-font = 2
+ramp-coreload-0-foreground = ${colors.accent}
+ramp-coreload-1 = ▂
+ramp-coreload-1-font = 2
+ramp-coreload-1-foreground = ${colors.accent}
+ramp-coreload-2 = ▃
+ramp-coreload-2-font = 2
+ramp-coreload-2-foreground = ${colors.accent}
+ramp-coreload-3 = ▄
+ramp-coreload-3-font = 2
+ramp-coreload-3-foreground = ${colors.accent}
+ramp-coreload-4 = ▅
+ramp-coreload-4-font = 2
+ramp-coreload-4-foreground = #fba922
+ramp-coreload-5 = ▆
+ramp-coreload-5-font = 2
+ramp-coreload-5-foreground = #fba922
+ramp-coreload-6 = ▇
+ramp-coreload-6-font = 2
+ramp-coreload-6-foreground = #ff5555
+ramp-coreload-7 = █
+ramp-coreload-7-font = 2
+ramp-coreload-7-foreground = #ff5555
+
+[module/memory]
+type = internal/memory
+interval = 2
+
+label = "  %gb_used% "
+
+format = <label> <bar-used>
+format-prefix = ""
+format-prefix-foreground = ${colors.accent}
+
+bar-used-width = 20
+bar-used-foreground-0 = ${colors.accent}
+bar-used-foreground-1 = ${colors.accent}
+bar-used-foreground-2 = ${colors.accent}
+bar-used-foreground-3 = ${colors.urgent}
+bar-used-indicator = |
+bar-used-indicator-font = 3
+bar-used-indicator-foreground = #ff
+bar-used-fill = ─
+bar-used-fill-font = 3
+bar-used-empty = ─
+bar-used-empty-font = 3
+bar-used-empty-foreground = #444444
+
+[module/temperature]
+type = custom/script
+interval = 5
+exec-if = sensors
+exec = sensors | grep Core | awk '{print substr($3, 2, length($3)-5)}'
+
+format = "<label>"
+format-prefix = "  "
+format-prefix-foreground = ${colors.accent}
+format-suffix = "°C
+
+; Hacky way to fix spacing beyween tray by adding padding to right of Celcius sign
+format-suffix-padding-right = 5
+
+[module/time_date]
+type = internal/date
+interval = 5
+
+time = "%I:%M %P"
+date = "%a, %b  %d, %Y "
+
+label = "%{F#3971eD} %{F-} %time%   |  %{F#3971eD}  %{F-} %date%"
+label-foreground = ${colors.foreground}
+label-background = ${colors.darkgray}
+label-underline = ${colors.accent}
+label-padding = 5
+
+; ------------------------------ ;
+; --- OTHER POLYBAR SETTINGS --- ;
+; ------------------------------ ;
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
