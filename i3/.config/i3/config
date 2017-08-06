@@ -1,4 +1,4 @@
-# --------------- #
+R --------------- #
 # --- General --- #
 # --------------- #
 set $mod Mod4
@@ -38,16 +38,16 @@ client.urgent		 $urgent-color	  $urgent-color    $text-color	$urgent-color
 # ------------------ #
 # --- Workspaces --- #
 # ------------------ #
-set $ws1 "1: "
-set $ws2 "2:"
+set $ws1 "1: "
+set $ws2 "2:"
 set $ws3 "3:"
 set $ws4 "4:"
-set $ws5 "5:"
-set $ws6 "6:"
+set $ws5 "5:"
+set $ws6 "6:"
 set $ws7 "7:"
 set $ws8 "8:"
-set $ws9 "9:"
-set $ws10 "10:"
+set $ws9 "9:"
+set $ws10 "10:"
 
 # Switch workspace
 bindsym $mod+1 workspace $ws1
@@ -133,7 +133,7 @@ bindsym $mod+a focus parent
 #exec_always --no-startup-id xrandr --output $monitor_main --mode 2560x1440 --pos 1680x0 --rotate normal --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal
 exec_always --no-startup-id ~/bin/xrandr_output.sh
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill  ~/Files/snowy_alps.jpg
+exec_always --no-startup-id feh --bg-fill /home/devon/dotfiles/wallpaper.*
 exec_always --no-startup-id nm-applet
 exec --no-startup-id compton -f
 
@@ -194,7 +194,7 @@ bindsym $mod+b mode "Browser"
 # -------------------- #
 # --- Window Rules --- #
 # -------------------- #
-for_window [class="^.*"] border pixel 4
+for_window [class="^.*"] border pixel 1
 
 # Scratchpad windows
 for_window [instance="scratchpad"] floating enable;
