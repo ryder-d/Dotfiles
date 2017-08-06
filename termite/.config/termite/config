@@ -1,5 +1,5 @@
 [options]
-font = Roboto Mono 12
+font = Roboto Mono 11
 
 [colors]
 # Base16 Google Dark
@@ -9,7 +9,7 @@ foreground      = #c5c8c6
 foreground_bold = #e0e0e0
 cursor          = #e0e0e0
 #background     = #1d1f21
-background      = rgba(29, 31, 33, 0.9)
+background      = rgba(29, 31, 33, 0.8)
 
 # 16 color space
 

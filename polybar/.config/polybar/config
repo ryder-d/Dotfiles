@@ -1,24 +1,17 @@
 [colors]
-
-black = #1d1f21
-lighterblack = #282a2e
-darkgray = #373b41
-gray = #969896
-white = #ffffff
-lightgray = #c5c8c6
-
+font-icons = #fff
 accent = #3971ED
-accent2 = #A36AC7
-accent3 = #198844
+accent-alt = #A36AC7
 urgent = #F96A38
 
-background = #CC1d1f21
-foreground = ${self.lightgray}
+background = #33000000
+background-alt = #333971ED
+foreground = #fff
 
 [bar/main]
 monitor = ${env:MONITOR:DP-1}
 width = 100%
-height = 32
+height = 30
 radius = 0 
 fixed-center = true
 bottom = true
@@ -26,42 +19,25 @@ bottom = true
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-border-left-size = 100
-border-right-size = ${self.border-left-size}
-border-bottom-size = 0
-border-color = #00000000
-
 line-size = 2
 
 padding-left = 0
-padding-right = 4
-
+padding-right = 5
 module-margin-left = 5
 module-margin-right = 5
 
-font-0 = FontAwesome:pixelsize=11;3
-font-1 = Roboto:pixelsize=12;3
+font-0 = FontAwesome:pixelsize=10;3
+font-1 = Roboto:pixelsize=10;3
 font-2 = Siji:pixelsize=10;3
-font-3 = Siji:pixelsize=10;3
 
-modules-left = i3 weather mpd 
-modules-center = time_date 
-modules-right = pkg_updates cpu memory temperature 
+modules-left = time weather mpd 
+modules-center = i3 
+modules-right = pkg_updates cpu memory temperature date 
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 0
 label-indicator-margin = 0
-label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
-
-tray-position = right
-tray-background = ${colors.darkgray}
-; Breaks icons
-;tray-maxsize = 4
-tray-detached = false
-tray-padding = 10
 
 ; --------------- ;
 ; --- MODULES --- ;
@@ -74,34 +50,34 @@ index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = true
 
-label-background = ${colors.darkgray}
+label-background = ${colors.background}
 
 label-mode-padding = 2
-label-mode-foreground = ${colors.foreground}
+label-mode-foreground = ${colors.urgent}
 label-mode-background = ${colors.background}
 
 ; focused = Active workspace on focused monitor
 label-focused = %name%
-label-focused-foreground = ${colors.white}
-label-focused-background = ${colors.accent}
+label-focused-foreground = ${colors.accent}
+label-focused-background = ${colors.background-alt} 
 label-focused-padding = 4
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %name%
+label-unfocused-foreground = #b3e0e0e0
 label-unfocused-background = ${self.label-background}
-label-unfocused-underline = 
 label-unfocused-padding = 4
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %name%
-label-visible-foreground = ${colors.accent}
+label-visible-foreground = #fff
 label-visible-background = ${self.label-background}
 label-visible-padding = 4
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %name%
-label-urgent-foreground = ${colors.white}
-label-urgent-background = ${colors.urgent}
+label-urgent-foreground = ${colors.urgent}
+label-urgent-background = ${self.label-background}
 label-urgent-padding = 4
 
 [module/weather]
@@ -110,8 +86,9 @@ interval = 1200
 format = <label>
 exec = ~/.config/polybar/weather.py
 
-format-prefix = "  "
-format-prefix-foreground = ${colors.accent}
+format-prefix = " "
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
 [module/mpd]
 type = internal/mpd
@@ -126,10 +103,11 @@ padding = 5
 
 [module/pkg_updates]
 type = custom/script
-interval = 600
+interval = 120
 format = <label>
-format-prefix = "  "
-format-prefix-foreground = ${colors.accent}
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 exec = ~/.config/polybar/updates.sh
 ; exec if internet connection
 exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
@@ -141,9 +119,11 @@ type = internal/cpu
 interval = 2
 
 format = <label> <ramp-coreload>
-format-prefix = ""
-format-prefix-foreground = ${colors.accent}
-label =  "  %percentage%% "
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+label =  "%percentage%%"
+label-padding-right = 3
 
 ramp-coreload-0 = ▁
 ramp-coreload-0-font = 2
@@ -159,26 +139,28 @@ ramp-coreload-3-font = 2
 ramp-coreload-3-foreground = ${colors.accent}
 ramp-coreload-4 = ▅
 ramp-coreload-4-font = 2
-ramp-coreload-4-foreground = #fba922
+ramp-coreload-4-foreground = ${colors.accent-alt}
 ramp-coreload-5 = ▆
 ramp-coreload-5-font = 2
-ramp-coreload-5-foreground = #fba922
+ramp-coreload-5-foreground = ${colors.accent-alt}
 ramp-coreload-6 = ▇
 ramp-coreload-6-font = 2
-ramp-coreload-6-foreground = #ff5555
+ramp-coreload-6-foreground = ${colors.urgent}
 ramp-coreload-7 = █
 ramp-coreload-7-font = 2
-ramp-coreload-7-foreground = #ff5555
+ramp-coreload-7-foreground = ${colors.urgent}
 
 [module/memory]
 type = internal/memory
 interval = 2
 
-label = "  %gb_used% "
+label = "%gb_used%"
+label-padding-right = 3
 
 format = <label> <bar-used>
-format-prefix = ""
-format-prefix-foreground = ${colors.accent}
+format-prefix = " "
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
 bar-used-width = 20
 bar-used-foreground-0 = ${colors.accent}
@@ -186,13 +168,10 @@ bar-used-foreground-1 = ${colors.accent}
 bar-used-foreground-2 = ${colors.accent}
 bar-used-foreground-3 = ${colors.urgent}
 bar-used-indicator = |
-bar-used-indicator-font = 3
-bar-used-indicator-foreground = #ff
+bar-used-indicator-foreground = #fff
 bar-used-fill = ─
-bar-used-fill-font = 3
 bar-used-empty = ─
-bar-used-empty-font = 3
-bar-used-empty-foreground = #444444
+bar-used-empty-foreground = ${colors.background-alt}
 
 [module/temperature]
 type = custom/script
@@ -201,24 +180,31 @@ exec-if = sensors
 exec = sensors | grep Core | awk '{print substr($3, 2, length($3)-5)}'
 
 format = "<label>"
-format-prefix = "  "
-format-prefix-foreground = ${colors.accent}
-format-suffix = "°C
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+format-suffix = "°C"
+format-suffix-padding = 2
 
-; Hacky way to fix spacing beyween tray by adding padding to right of Celcius sign
-format-suffix-padding-right = 5
-
-[module/time_date]
+[module/time]
 type = internal/date
 interval = 5
 
-time = "%I:%M %P"
-date = "%a, %b  %d, %Y "
+time = "%H:%M        %I:%M %P"
 
-label = "%{F#3971eD} %{F-} %time%   |  %{F#3971eD}  %{F-} %date%"
+label =  "%time%"
 label-foreground = ${colors.foreground}
-label-background = ${colors.darkgray}
-label-underline = ${colors.accent}
+label-background = ${colors.background-alt}
+label-padding = 5
+
+[module/date]
+type = internal/date
+interval = 5
+date = "%a, %b  %d, %Y"
+
+label =  "%date%"    
+label-foreground = ${colors.foreground}
+label-background = ${colors.background-alt}
 label-padding = 5
 
 ; ------------------------------ ;
