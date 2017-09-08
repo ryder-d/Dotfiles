@@ -2,25 +2,25 @@
 ! --- COLOURS --- !
 ! --------------- !
 
-! Base16 Google Dark
-! Scheme: Seth Wright (http://sethawright.com)
+! Base16 OneDark
+! Scheme: Lalit Magant (http://github.com/tilal6991)
 
-#define base00 #1d1f21
-#define base01 #282a2e
-#define base02 #373b41
-#define base03 #969896
-#define base04 #b4b7b4
-#define base05 #c5c8c6
-#define base06 #e0e0e0
-#define base07 #ffffff
-#define base08 #CC342B
-#define base09 #F96A38
-#define base0A #FBA922
-#define base0B #198844
-#define base0C #3971ED
-#define base0D #3971ED
-#define base0E #A36AC7
-#define base0F #3971ED
+#define base00 #282c34
+#define base01 #353b45
+#define base02 #3e4451
+#define base03 #545862
+#define base04 #565c64
+#define base05 #abb2bf
+#define base06 #b6bdca
+#define base07 #c8ccd4
+#define base08 #e06c75
+#define base09 #d19a66
+#define base0A #e5c07b
+#define base0B #98c379
+#define base0C #56b6c2
+#define base0D #61afef
+#define base0E #c678dd
+#define base0F #be5046
 
 *.foreground:   base05
 *.background:   base00
@@ -51,7 +51,8 @@
 *.color18:      base01
 *.color19:      base02
 *.color20:      base04
-*.color21:      base06
+*.color21:	base06
+
 
 ! ------------ !
 ! --- Rofi --- !
@@ -60,12 +61,12 @@
 rofi.color-enabled: true
 
 !                  Background   Border      Separator 
-rofi.color-window: base00,      base0C,     base0C                                    
+rofi.color-window: base00,      base0D,     base0D                                    
 
 !                  Background   Foreground  Background Alternate    Highlight Background    Highlight Foreground
-rofi.color-normal: base00,      base05,     base00,                 base02,                 base0C
-rofi.color-active: base00,      base05,     base00,                 base02,                 base0C
-rofi.color-urgent: base00,      base09,     base00,                 base02,                 base0C
+rofi.color-normal: base00,      base05,     base00,                 base02,                 base0D 
+rofi.color-active: base00,      base05,     base00,                 base02,                 base0D 
+rofi.color-urgent: base00,      base09,     base00,                 base02,                 base0D 
 
 rofi.font: Roboto 32
 rofi.columns: 1

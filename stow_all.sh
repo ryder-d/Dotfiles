@@ -5,7 +5,6 @@
 
 echo "Stowing Dotfiles...";
 
-cd ~/.dotfiles
 for file in ~/dotfiles/*; do
   # Only run Stow on the directories in the dotfiles folder and not the individual files.
   # Using 'basename' strips the filepath from the directory name. 
@@ -15,7 +14,4 @@ for file in ~/dotfiles/*; do
   fi
 done
 
-# Return back to the your PWD from before you ran the script
-cd ~- 
-
-echo 'All packages stowed or re-stowed.'; 
+echo 'All stowed'; 

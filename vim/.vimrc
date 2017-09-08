@@ -24,13 +24,19 @@ Plugin 'ap/vim-css-color'
 Plugin 'chriskempson/base16-vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'w0rp/ale'
+" Git
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'ryanoasis/vim-devicons'
 
 " Airline
 set laststatus=2
 
 let g:airline_theme='base16_google'
 let g:airline_powerline_fonts = 1
+let g:airline_symbols_ascii = 0
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#buffer_min_count = 2
@@ -40,22 +46,27 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
+" Unimpaired
+nnoremap <C-Up> [e
+nnoremap <C-Down> ]e
+" Bubble multiple lines
+vnoremap <C-Up> [egv
+vnoremap <C-Down> ]egv
+
 " All of your Plugins must be added before the following line
 call vundle#end()
 
 filetype plugin indent on
 
-" ---------------"
+" -------------- "
 " --- COLORS --- "
-"  ------------- "
+" -------------- "
 syntax on
-set background=dark
 set t_Co=256
+set background=dark
 let base16colorspace=256
-colorscheme base16-google-dark
-hi clear cursorline
+colorscheme base16-onedark
 set cursorline
-hi CursorLineNr cterm=bold ctermfg=Blue gui=bold guifg=Blue
 
 " Transparency
 hi NonText ctermbg=NONE guibg=NONE
@@ -75,7 +86,6 @@ set incsearch
 set autowrite
 set hidden
 set mouse=a
-
 set clipboard=unnamed
 set backspace=indent,eol,start
 
@@ -102,7 +112,19 @@ vnoremap <tab> >gv
 vnoremap <S-tab> <gv
 
 " Change between Buffers
-nnoremap <silent> <C-Right> :bnext<CR>
-nnoremap <silent> <C-Left> :bprev<CR>
+nnoremap <silent> <C-^> :bnext<CR>
+nnoremap <silent> <C-6> :bprev<CR>
 
-nnoremap <C-tab> 1\c<S> 
+
+" Jump between buffers with Ngb
+let i = 1
+while i <= 99
+  execute "nnoremap " . i . "gb :" . i . "b\<CR>"
+  let i += 1
+endwhile
+
+" Tab through filenames and buffers in the command line,
+" and use F5 to open console tab menu of buffers
+set wildchar=<Tab> wildmenu wildmode=full
+set wildcharm=<C-Z>
+nnoremap <F5> :b <C-Z>
