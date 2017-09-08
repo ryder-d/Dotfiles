@@ -1,28 +1,33 @@
 [colors]
-font-icons = #fff
-accent = #3971ED
+font-icons = #c0c0c0
+accent = ${xrdb:color4}
 accent-alt = #A36AC7
 urgent = #F96A38
 
-background = #33000000
-background-alt = #333971ED
-foreground = #fff
+background = ${xrdb:background}
+background-alt = ${xrdb:color18}
+foreground = ${xrdb:color15}
 
 [bar/main]
 monitor = ${env:MONITOR:DP-1}
 width = 100%
-height = 30
-radius = 0 
+height = 35
+radius = 0
 fixed-center = true
-bottom = true
+bottom = false
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 2
+border-color = #00000000
+border-left-size = 6
+border-right-size = ${self.border-left-size}
+border-top-size = 6
+
+line-size = 1
 
 padding-left = 0
-padding-right = 5
+padding-right = 0
 module-margin-left = 5
 module-margin-right = 5
 
@@ -30,9 +35,9 @@ font-0 = FontAwesome:pixelsize=10;3
 font-1 = Roboto:pixelsize=10;3
 font-2 = Siji:pixelsize=10;3
 
-modules-left = time weather mpd 
-modules-center = i3 
-modules-right = pkg_updates cpu memory temperature date 
+modules-left = i3 window 
+modules-center =  
+modules-right = weather mpd cpu memory temperature vpn wireless ethernet datetime
 
 label-layout = %layout%
 
@@ -50,35 +55,56 @@ index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = true
 
-label-background = ${colors.background}
+label-background = ${root.background}
 
 label-mode-padding = 2
 label-mode-foreground = ${colors.urgent}
-label-mode-background = ${colors.background}
+label-mode-background = ${root.background}
 
 ; focused = Active workspace on focused monitor
-label-focused = %name%
+label-focused = %icon%
 label-focused-foreground = ${colors.accent}
-label-focused-background = ${colors.background-alt} 
-label-focused-padding = 4
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.accent}
+label-focused-padding = 6
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %name%
-label-unfocused-foreground = #b3e0e0e0
+label-unfocused = %icon%
+label-unfocused-foreground = ${xrdb:color20}
 label-unfocused-background = ${self.label-background}
-label-unfocused-padding = 4
+label-unfocused-underline = ${colors.background}
+label-unfocused-padding = 6
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %name%
-label-visible-foreground = #fff
+label-visible = %icon%
+label-visible-foreground = ${colors.foreground}
 label-visible-background = ${self.label-background}
-label-visible-padding = 4
+label-visible-underline = 
+label-visible-padding = 6
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %name%
+label-urgent = %icon%
 label-urgent-foreground = ${colors.urgent}
 label-urgent-background = ${self.label-background}
-label-urgent-padding = 4
+label-urgent-underline = ${colors.urgent}
+label-urgent-padding = 6
+
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
+
+[module/window]
+type = internal/xwindow
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
 [module/weather]
 type = custom/script
@@ -101,54 +127,16 @@ interval = 2
 
 padding = 5
 
-[module/pkg_updates]
-type = custom/script
-interval = 120
-format = <label>
-format-prefix = ""
-format-prefix-padding = 4
-format-prefix-foreground = ${colors.font-icons}
-exec = ~/.config/polybar/updates.sh
-; exec if internet connection
-exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
-
-label = "%output:0:30%"
-
 [module/cpu]
 type = internal/cpu
 interval = 2
 
-format = <label> <ramp-coreload>
+format = <label> 
 format-prefix = ""
 format-prefix-padding = 4
 format-prefix-foreground = ${colors.font-icons}
 label =  "%percentage%%"
 label-padding-right = 3
-
-ramp-coreload-0 = ▁
-ramp-coreload-0-font = 2
-ramp-coreload-0-foreground = ${colors.accent}
-ramp-coreload-1 = ▂
-ramp-coreload-1-font = 2
-ramp-coreload-1-foreground = ${colors.accent}
-ramp-coreload-2 = ▃
-ramp-coreload-2-font = 2
-ramp-coreload-2-foreground = ${colors.accent}
-ramp-coreload-3 = ▄
-ramp-coreload-3-font = 2
-ramp-coreload-3-foreground = ${colors.accent}
-ramp-coreload-4 = ▅
-ramp-coreload-4-font = 2
-ramp-coreload-4-foreground = ${colors.accent-alt}
-ramp-coreload-5 = ▆
-ramp-coreload-5-font = 2
-ramp-coreload-5-foreground = ${colors.accent-alt}
-ramp-coreload-6 = ▇
-ramp-coreload-6-font = 2
-ramp-coreload-6-foreground = ${colors.urgent}
-ramp-coreload-7 = █
-ramp-coreload-7-font = 2
-ramp-coreload-7-foreground = ${colors.urgent}
 
 [module/memory]
 type = internal/memory
@@ -157,21 +145,10 @@ interval = 2
 label = "%gb_used%"
 label-padding-right = 3
 
-format = <label> <bar-used>
+format = <label> 
 format-prefix = " "
 format-prefix-padding = 4
 format-prefix-foreground = ${colors.font-icons}
-
-bar-used-width = 20
-bar-used-foreground-0 = ${colors.accent}
-bar-used-foreground-1 = ${colors.accent}
-bar-used-foreground-2 = ${colors.accent}
-bar-used-foreground-3 = ${colors.urgent}
-bar-used-indicator = |
-bar-used-indicator-foreground = #fff
-bar-used-fill = ─
-bar-used-empty = ─
-bar-used-empty-foreground = ${colors.background-alt}
 
 [module/temperature]
 type = custom/script
@@ -184,29 +161,49 @@ format-prefix = ""
 format-prefix-padding = 4
 format-prefix-foreground = ${colors.font-icons}
 format-suffix = "°C"
-format-suffix-padding = 2
+format-suffix-padding-left = 2
 
-[module/time]
+[module/datetime]
 type = internal/date
 interval = 5
-
-time = "%H:%M        %I:%M %P"
-
-label =  "%time%"
+date = %A,  %B  %d  %{F#61afef} at %{F-}  %I:%M %P"
+label =  "%date%"
+label-padding = 5
 label-foreground = ${colors.foreground}
 label-background = ${colors.background-alt}
-label-padding = 5
 
-[module/date]
-type = internal/date
+[module/vpn]
+type = custom/script
+format-padding = 2
+exec = pgrep openvpn
 interval = 5
-date = "%a, %b  %d, %Y"
+label = "VPN"
+format-prefix = ""
+format-prefix-padding = 4
 
-label =  "%date%"    
-label-foreground = ${colors.foreground}
-label-background = ${colors.background-alt}
-label-padding = 5
+[module/wireless]
+type = internal/network
+interface = wlp0s26u1u6
+internal = 5
+format-connected = <ramp-signal> <label-connected>  
+label-connected = %essid%  
 
+ramp-signal-0 = 
+ramp-signal-1 =  
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-5 = 
+
+[module/ethernet]
+type = internal/network
+interface = eno1
+label-connected = %linkspeed%
+ramp-signal-0 = ""
+ramp-signal-0-padding = 4
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+format-connected = <ramp-signal><label-connected>
 ; ------------------------------ ;
 ; --- OTHER POLYBAR SETTINGS --- ;
 ; ------------------------------ ;

@@ -1,52 +1,52 @@
-[options]
-font = Roboto Mono 11
+font = Roboto Mono for Powerline 11
 
 [colors]
-# Base16 Google Dark
-# Author: Seth Wright (http://sethawright.com)
 
-foreground      = #c5c8c6
-foreground_bold = #e0e0e0
-cursor          = #e0e0e0
-#background     = #1d1f21
-background      = rgba(29, 31, 33, 0.8)
+# Base16 OneDark
+# Author: Lalit Magant (http://github.com/tilal6991)
+
+foreground      = #abb2bf
+foreground_bold = #b6bdca
+cursor          = #b6bdca
+#background     = #282c34
+background      = rgba(40, 44, 52, 0.95)
 
 # 16 color space
 
 # Black, Gray, Silver, White
-color0  = #1d1f21
-color8  = #969896
-color7  = #c5c8c6
-color15 = #ffffff
+color0  = #282c34
+color8  = #545862
+color7  = #abb2bf
+color15 = #c8ccd4
 
 # Red
-color1  = #CC342B
-color9  = #CC342B
+color1  = #e06c75
+color9  = #e06c75
 
 # Green
-color2  = #198844
-color10 = #198844
+color2  = #98c379
+color10 = #98c379
 
 # Yellow
-color3  = #FBA922
-color11 = #FBA922
+color3  = #e5c07b
+color11 = #e5c07b
 
 # Blue
-color4  = #3971ED
-color12 = #3971ED
+color4  = #61afef
+color12 = #61afef
 
 # Purple
-color5  = #A36AC7
-color13 = #A36AC7
+color5  = #c678dd
+color13 = #c678dd
 
 # Teal
-color6  = #3971ED
-color14 = #3971ED
+color6  = #56b6c2
+color14 = #56b6c2
 
 # Extra colors
-color16 = #F96A38
-color17 = #3971ED
-color18 = #282a2e
-color19 = #373b41
-color20 = #b4b7b4
-color21 = #e0e0e0
+color16 = #d19a66
+color17 = #be5046
+color18 = #353b45
+color19 = #3e4451
+color20 = #565c64
+color21 = #b6bdca
