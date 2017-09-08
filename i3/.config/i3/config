@@ -1,220 +1,222 @@
-# --------------- #
-# --- General --- #
-# --------------- #
-set $mod Mod4
-floating_modifier $mod
-font pango:Roboto 11
+[colors]
+font-icons = #c0c0c0
+accent = ${xrdb:color4}
+accent-alt = #A36AC7
+urgent = #F96A38
 
-gaps inner 16
-gaps outer 5
+background = ${xrdb:background}
+background-alt = ${xrdb:color18}
+foreground = ${xrdb:color15}
 
-bindsym $mod+Shift+q kill
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec i3-msg exit
+[bar/main]
+monitor = ${env:MONITOR:DP-1}
+width = 100%
+height = 35
+radius = 0
+fixed-center = true
+bottom = false
 
-# ----------------- #
-# --- Variables --- #
-# ----------------- #
-set $terminal termite
-set $monitor_main DP-1
-#set $monitor_left DVI-D-0
-set $monitor_left DVI-I-1
-#set $monitor_left HDMI-0
+background = ${colors.background}
+foreground = ${colors.foreground}
 
-# --------------- #
-# --- Colours --- #
-# --------------- #
-set $urgent-color "#F96A38"
-set $text-color "#c5c8c6"
-set $active-color "#3971ED"
-set $inactive-color "#282a2e"
+border-color = #00000000
+border-left-size = 6
+border-right-size = ${self.border-left-size}
+border-top-size = 6
 
-#			 border		  background	   text		indicator (split)
-client.focused		 $active-color	  $active-color    $text-color	$active-color
-client.unfocused	 $inactive-color  $inactive-color  $text-color	$inactive-color
-client.focused_inactive  $inactive-color  $inactive-color  $text-color	$inactive-color
-client.urgent		 $urgent-color	  $urgent-color    $text-color	$urgent-color
+line-size = 1
 
-# ------------------ #
-# --- Workspaces --- #
-# ------------------ #
-set $ws1 "1: "
-set $ws2 "2:"
-set $ws3 "3:"
-set $ws4 "4:"
-set $ws5 "5:"
-set $ws6 "6:"
-set $ws7 "7:"
-set $ws8 "8:"
-set $ws9 "9:"
-set $ws10 "10:"
+padding-left = 0
+padding-right = 0
+module-margin-left = 5
+module-margin-right = 5
 
-# Switch workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
-bindsym $mod+Tab workspace back_and_forth
+font-0 = FontAwesome:pixelsize=10;3
+font-1 = Roboto:pixelsize=10;3
+font-2 = Siji:pixelsize=10;3
 
-workspace $ws1 output $monitor_left
-workspace $ws2 output $monitor_left
-workspace $ws3 output $monitor_left
-workspace $ws4 output $monitor_main
-workspace $ws5 output $monitor_main
-workspace $ws6 output $monitor_main
-workspace $ws7 output $monitor_main
-workspace $ws8 output $monitor_main
-workspace $ws9 output $monitor_main
-workspace $ws10 output $monitor_main
+modules-left = i3 window 
+modules-center =  
+modules-right = weather mpd cpu memory temperature vpn wireless ethernet datetime
 
-# move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+label-layout = %layout%
 
-# ------------------------ #
-# --- Focus Management --- #
-# ------------------------ #
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+label-indicator-padding = 0
+label-indicator-margin = 0
 
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+; --------------- ;
+; --- MODULES --- ;
+; --------------- ;
 
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+strip-wsnumbers = true
 
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+label-background = ${root.background}
 
-bindsym $mod+semicolon split h
-bindsym $mod+v split v
+label-mode-padding = 2
+label-mode-foreground = ${colors.urgent}
+label-mode-background = ${root.background}
 
-bindsym $mod+f fullscreen toggle
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-foreground = ${colors.accent}
+label-focused-background = ${colors.background-alt}
+label-focused-underline = ${colors.accent}
+label-focused-padding = 6
 
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %icon%
+label-unfocused-foreground = ${xrdb:color20}
+label-unfocused-background = ${self.label-background}
+label-unfocused-underline = ${colors.background}
+label-unfocused-padding = 6
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+; visible = Active workspace on unfocused monitor
+label-visible = %icon%
+label-visible-foreground = ${colors.foreground}
+label-visible-background = ${self.label-background}
+label-visible-underline = 
+label-visible-padding = 6
 
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-foreground = ${colors.urgent}
+label-urgent-background = ${self.label-background}
+label-urgent-underline = ${colors.urgent}
+label-urgent-padding = 6
 
-# focus the parent container
-bindsym $mod+a focus parent
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-4 = 5;
+ws-icon-5 = 6;
+ws-icon-6 = 7;
+ws-icon-7 = 8;
+ws-icon-8 = 9;
+ws-icon-9 = 10;
 
-# --------------- #
-# --- Startup --- #
-# --------------- #
-exec_always --no-startup-id xrandr --output $monitor_main --mode 2560x1440 --rotate normal --output $monitor_left --mode 1680x1050 --rotate normal --left-of $monitor_main
-exec_always --no-startup-id ~/bin/xrandr_output.sh
-exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill /home/devon/dotfiles/wallpaper.*
-exec_always --no-startup-id nm-applet
-exec --no-startup-id compton -f
+[module/window]
+type = internal/xwindow
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
-exec --no-startup-id $terminal --name scratchpad
+[module/weather]
+type = custom/script
+interval = 1200
+format = <label>
+exec = ~/.config/polybar/weather.py
 
-# ----------------- #
-# --- Key Binds --- #
-# ----------------- #
-bindsym $mod+Return exec $terminal
-bindsym $mod+d exec rofi -monitor $monitor_main -show drun
-bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image/png
+format-prefix = " "
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
-# ------------- #
-# --- Modes --- #
-# ------------- #
-mode "Resize" {
-	bindsym j resize shrink width 10 px or 10 ppt
-	bindsym k resize grow height 10 px or 10 ppt
-	bindsym l resize shrink height 10 px or 10 ppt
-	bindsym semicolon resize grow width 10 px or 10 ppt
+[module/mpd]
+type = internal/mpd
 
-	# same bindings, but for the arrow keys
-	bindsym Left resize shrink width 10 px or 10 ppt
-	bindsym Down resize grow height 10 px or 10 ppt
-	bindsym Up resize shrink height 10 px or 10 ppt
-	bindsym Right resize grow width 10 px or 10 ppt
+host = 127.0.0.1
+port = 6600
+password = 
 
-	# back to normal: Enter or Escape
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
-}
+interval = 2
 
-bindsym $mod+r mode "Resize"
+padding = 5
 
-mode "Power" {
-	bindsym $mod+p exec systemctl poweroff
-	bindsym $mod+s exec systemctl suspend, mode "default"
-	bindsym $mod+r exec systemctl reboot
-bindsym $mod+l exec i3lock, mode "default"
+[module/cpu]
+type = internal/cpu
+interval = 2
 
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+p mode "Power"
+format = <label> 
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+label =  "%percentage%%"
+label-padding-right = 3
 
-mode "Browser" {
-	bindsym $mod+f exec firefox, mode "default"
-	bindsym $mod+v exec vivaldi-stable, mode "default"
-	bindsym $mod+c exec chromium, mode "default"
-	bindsym $mod+Shift+c exec chromium --incognito, mode "default"
+[module/memory]
+type = internal/memory
+interval = 2
 
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+b mode "Browser"
+label = "%gb_used%"
+label-padding-right = 3
 
+format = <label> 
+format-prefix = " "
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
 
-# -------------------- #
-# --- Window Rules --- #
-# -------------------- #
-for_window [class="^.*"] border pixel 1
+[module/temperature]
+type = custom/script
+interval = 5
+exec-if = sensors
+exec = sensors | grep Core | awk '{print substr($3, 2, length($3)-5)}'
 
-# Scratchpad windows
-for_window [instance="scratchpad"] floating enable;
-for_window [instance="scratchpad"] move scratchpad;
-bindsym $mod+t [instance="scratchpad"] scratchpad show
+format = "<label>"
+format-prefix = ""
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+format-suffix = "°C"
+format-suffix-padding-left = 2
 
-# Window assignments
-assign [class="discord"] $ws7
-assign [class="Caprine"] $ws7
-assign [class="mpv"] $ws8
+[module/datetime]
+type = internal/date
+interval = 5
+date = %A,  %B  %d  %{F#61afef} at %{F-}  %I:%M %P"
+label =  "%date%"
+label-padding = 5
+label-foreground = ${colors.foreground}
+label-background = ${colors.background-alt}
 
-# Float all the Steam panels thanks to https://github.com/hubbcaps
-for_window [class="^Steam$" title="^Friends$"] floating enable
-for_window [class="^Steam$" title="Steam - News"] floating enable
-for_window [class="^Steam$" title=".* - Chat"] floating enable
-for_window [class="^Steam$" title="^Settings$"] floating enable
-for_window [class="^Steam$" title=".* - event started"] floating enable
-for_window [class="^Steam$" title=".* CD key"] floating enable
-for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
-for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
-for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
-for_window [title="^Steam Keyboard$"] floating enable
+[module/vpn]
+type = custom/script
+format-padding = 2
+exec = pgrep openvpn
+interval = 5
+label = "VPN"
+format-prefix = ""
+format-prefix-padding = 4
+
+[module/wireless]
+type = internal/network
+interface = wlp0s26u1u6
+internal = 5
+format-connected = <ramp-signal> <label-connected>  
+label-connected = %essid%  
+
+ramp-signal-0 = 
+ramp-signal-1 =  
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-5 = 
+
+[module/ethernet]
+type = internal/network
+interface = eno1
+label-connected = %linkspeed%
+ramp-signal-0 = ""
+ramp-signal-0-padding = 4
+format-prefix-padding = 4
+format-prefix-foreground = ${colors.font-icons}
+format-connected = <ramp-signal><label-connected>
+; ------------------------------ ;
+; --- OTHER POLYBAR SETTINGS --- ;
+; ------------------------------ ;
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
