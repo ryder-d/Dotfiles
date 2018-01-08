@@ -1,7 +1,7 @@
 [global]
     font = Roboto 11
     monitor = DP-1
-    geometry = "400x50-30+30"
+    geometry = "400x50-15+50"
     indicate_hidden = yes
     shrink = no
     transparency = 0
