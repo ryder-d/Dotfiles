@@ -11,15 +11,17 @@ gaps outer 0
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
-bindsym $mod+Shift+e exec i3-msg exit
+bindsym $mod+Shift+z exec i3-msg exit
 
 # ----------------- #
 # --- Variables --- #
 # ----------------- #
 set $terminal termite
-set $monitor_main DP-1
+set $monitor_main DP-1-8
 set $monitor_left HDMI-2
-#set $monitor_left HDMI-0
+
+exec_always xrandr --output eDP-1 --off --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal --output $monitor_main --primary --mode 2560x1440 --pos 1680x0 --rotate normal --right-of $monitor_left
+#exec_always xrandr --output eDP-1 --pos 0x0 --left-of $monitor_main --mode 1920x1080 --rotate normal --output $monitor_main --primary --mode 2560x1440 --pos 1920x0 --rotate normal --right-of $monitor_left 
 
 # --------------- #
 # --- Colours --- #
@@ -114,9 +116,9 @@ bindsym $mod+v split v
 
 bindsym $mod+f fullscreen toggle
 
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+Shift+s layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -130,20 +132,23 @@ bindsym $mod+a focus parent
 # --------------- #
 # --- Startup --- #
 # --------------- #
-exec_always xrandr --output eDP-1 --off --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal --output $monitor_main --primary --mode 2560x1440 --rotate normal --right-of $monitor_left
-exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill /home/devon/dotfiles/wallpaper.*
-exec_always --no-startup-id nm-applet
+exec_always --no-startup-id xfce4-panel
+exec_always --no-startup-id feh --bg-fill /home/devon/Wallpapers/mr-robot-colourful-street.jpg
 
+exec --no-startup-id nm-applet
 exec --no-startup-id compton -f
 exec --no-startup-id $terminal --name scratchpad
+exec --no-startup-id udiskie -t
 
 # ----------------- #
 # --- Key Binds --- #
 # ----------------- #
 bindsym $mod+Return exec $terminal
-#bindsym $mod+d exec rofi -monitor $monitor_main -show drun
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+c exec caprine
+bindsym $mod+m exec --no-startup-id vblank_mode=0 primusrun java -jar ~/.minecraft/launcher.jar
+bindsym $mod+s exec spotify
+bindsym $mod+g exec vblank_mode=0 primusrun steam
 bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image/png
 
 # ------------- #
@@ -154,12 +159,6 @@ mode "Resize" {
 	bindsym k resize grow height 10 px or 10 ppt
 	bindsym l resize shrink height 10 px or 10 ppt
 	bindsym semicolon resize grow width 10 px or 10 ppt
-
-	# same bindings, but for the arrow keys
-	bindsym Left resize shrink width 10 px or 10 ppt
-	bindsym Down resize grow height 10 px or 10 ppt
-	bindsym Up resize shrink height 10 px or 10 ppt
-	bindsym Right resize grow width 10 px or 10 ppt
 
 	# back to normal: Enter or Escape
 	bindsym Return mode "default"
@@ -180,7 +179,9 @@ bindsym $mod+l exec i3lock, mode "default"
 bindsym $mod+p mode "Power"
 
 mode "Browser" {
+	bindsym $mod+b exec brave, mode "default"
 	bindsym $mod+f exec firefox-developer-edition, mode "default"
+	bindsym $mod+Shift+f exec firefox-developer-edition -private-window, mode "default"
 	bindsym $mod+c exec chromium, mode "default"
 	bindsym $mod+Shift+c exec chromium --incognito, mode "default"
 
