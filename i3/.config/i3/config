@@ -7,6 +7,7 @@ font pango:Roboto 11
 
 gaps inner 8
 gaps outer 0
+smart_borders on
 
 bindsym $mod+Shift+q kill
 bindsym $mod+Shift+c reload
@@ -17,24 +18,25 @@ bindsym $mod+Shift+z exec i3-msg exit
 # --- Variables --- #
 # ----------------- #
 set $terminal termite
-set $monitor_main DP-1-8
+set $monitor_main DP-1
 set $monitor_left HDMI-2
 
-exec_always xrandr --output eDP-1 --off --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal --output $monitor_main --primary --mode 2560x1440 --pos 1680x0 --rotate normal --right-of $monitor_left
+exec_always ~/dotfiles/.display_setup.sh
+#exec_always xrandr --output eDP-1 --off --output $monitor_left --mode 1680x1050 --pos 0x0 --rotate normal --left-of $monitor_main --output $monitor_main --primary --mode 2560x1440 --pos 1680x0 --rotate normal --right-of $monitor_left
 #exec_always xrandr --output eDP-1 --pos 0x0 --left-of $monitor_main --mode 1920x1080 --rotate normal --output $monitor_main --primary --mode 2560x1440 --pos 1920x0 --rotate normal --right-of $monitor_left 
 
 # --------------- #
 # --- Colours --- #
 # --------------- #
-set $urgent-color "#F96A38"
-set $text-color "#FFFFFF"
-set $active-color "#2ECC71"
-set $inactive-color "#161f28"
+set $urgent-color "#e06c75"
+set $text-color "#abb2bf"
+set $active-color "#3b84c0"
+set $inactive-color "#282c34"
 
 #			 border		  background	   text			indicator (split)
 client.focused		 $active-color 	  $active-color    $inactive-color 	$active-color
-client.unfocused	 $inactive-color  $inactive-color  $text-color		$inactive-color
-client.focused_inactive  $inactive-color  $inactive-color  $text-color		$inactive-color
+client.unfocused	 $inactive-color  $active-color    $text-color		$active-color
+client.focused_inactive  $inactive-color  $active-color    $text-color		$active-color
 client.urgent		 $urgent-color	  $urgent-color    $text-color		$urgent-color
 
 # ------------------ #
@@ -132,23 +134,25 @@ bindsym $mod+a focus parent
 # --------------- #
 # --- Startup --- #
 # --------------- #
-exec_always --no-startup-id xfce4-panel
 exec_always --no-startup-id feh --bg-fill /home/devon/Wallpapers/mr-robot-colourful-street.jpg
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id nm-applet
 exec --no-startup-id compton -f
-exec --no-startup-id $terminal --name scratchpad
+exec --no-startup-id $terminal --name scratchpad -e htop
 exec --no-startup-id udiskie -t
+exec --no-startup-id xfce4-power-manager
 
 # ----------------- #
 # --- Key Binds --- #
 # ----------------- #
 bindsym $mod+Return exec $terminal
 bindsym $mod+d exec --no-startup-id rofi -show drun
-bindsym $mod+c exec caprine
 bindsym $mod+m exec --no-startup-id vblank_mode=0 primusrun java -jar ~/.minecraft/launcher.jar
 bindsym $mod+s exec spotify
 bindsym $mod+g exec vblank_mode=0 primusrun steam
+bindsym $mod+n exec runelite
+bindsym --release Print exec maim | xclip -selection clipboard -t image/png
 bindsym --release Shift+Print exec maim -s | xclip -selection clipboard -t image/png
 
 # ------------- #
@@ -194,17 +198,18 @@ bindsym $mod+b mode "Browser"
 # -------------------- #
 # --- Window Rules --- #
 # -------------------- #
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 2
+for_window [class="^Ulauncher$"] border pixel 0
 
 # Scratchpad windows
-for_window [instance="scratchpad"] floating enable;
-for_window [instance="scratchpad"] move scratchpad;
+for_window [instance="scratchpad"] floating enable, move scratchpad, sticky enable
 bindsym $mod+t [instance="scratchpad"] scratchpad show
 
 # Window assignments
 assign [class="discord"] $ws7
-assign [class="Caprine"] $ws7
-assign [class="mpv"] $ws8
+assign [class="mpv"] $ws3
+assign [class="runelite"] $ws8
+assign [class="^minecraft$"] $ws8
 
 # Float all the Steam panels thanks to https://github.com/hubbcaps
 for_window [class="^Steam$" title="^Friends$"] floating enable
