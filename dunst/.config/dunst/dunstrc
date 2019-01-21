@@ -1,7 +1,7 @@
 [global]
     font = Roboto 11
-    monitor = DP-1
-    geometry = "400x50-15+50"
+    monitor = 
+    geometry = "400x50-0+42"
     indicate_hidden = yes
     shrink = no
     transparency = 0
@@ -9,8 +9,8 @@
     separator_height = 2
     padding = 10
     horizontal_padding = 10
-    frame_width = 3
-    frame_color = "#61afef"
+    frame_width = 0
+    frame_color = ""
     separator_color = frame
     sort = yes
     idle_threshold = 120
