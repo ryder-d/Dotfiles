@@ -22,8 +22,8 @@ Plugin 'sirver/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'ap/vim-css-color'
 Plugin 'chriskempson/base16-vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'w0rp/ale'
+Plugin 'rakr/vim-one'
+
 " Git
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
@@ -32,7 +32,6 @@ Plugin 'ryanoasis/vim-devicons'
 " Airline
 set laststatus=2
 
-let g:airline_theme='base16_google'
 let g:airline_powerline_fonts = 1
 let g:airline_symbols_ascii = 0
 let g:airline_left_sep=''
@@ -63,9 +62,9 @@ filetype plugin indent on
 " -------------- "
 syntax on
 set t_Co=256
+set termguicolors
+colorscheme one
 set background=dark
-let base16colorspace=256
-colorscheme base16-onedark
 set cursorline
 
 " Transparency
